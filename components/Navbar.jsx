@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useId } from "react";
 import Link from "next/link";
 import Collapsible from 'react-collapsible';
 import {
@@ -11,11 +11,11 @@ import {
   AiFillCaretDown
 } from "react-icons/ai";
 import { Cart, SearchHistory } from "./";
-//import { Product, FooterBanner, HeroBanner } from '../components';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useStateContext } from "../context/StateContext";
 
 const Navbar = ({}) => {
+
   const {
     showCart,
     setShowCart,
@@ -23,25 +23,19 @@ const Navbar = ({}) => {
     userLogin,
     setUserLogin,
     showHistory,
-    setShowHistory,
     onShowHistory,
     selectedCategory,
     setSelectedCategory,
     fromPrice,
     setFromPrice,
     toPrice,
-    setToPrice
+    setToPrice,
+    collapsibleSearchProductName,
+    setCollapsibleSearchProductName,
   } = useStateContext();
 
-  const [message, setMessage] = useState("");
-
-{/*
-  const [selectedCategory, setSelectedCategory] = useState(""); 
-  const [fromPrice, setFromPrice] = useState(null); 
-  const [toPrice, setToPrice] = useState(null);  do edycja w useStateContext  */}
-
   const handleChange = (event) => {
-    setMessage(event.target.value);
+    setCollapsibleSearchProductName(event.target.value);
   };
 
   const handleSelectCategory = (event) => {
@@ -59,7 +53,7 @@ const Navbar = ({}) => {
   const handleOnClick = (event) => {
     event.preventDefault();
 
-    <Link href={`/search/${message}`}></Link>;
+    <Link href={`/search/${collapsibleSearchProductName}`}></Link>;
   };
 
   const handleOnLogOut = (event) => {
@@ -73,28 +67,28 @@ const Navbar = ({}) => {
 
       //console.log("Login został zapisany w AsyncStorage.");
     } catch (error) {
-      //console.log("Wystąpił błąd podczas zapisywania loginu:", error);
+      console.log("Wystąpił błąd podczas zapisywania loginu:", error);
     }
   };
 
   return (
     <div className="navbar-container">
-      <div class="dropdown">
+      <div className="dropdown">
         <button className="dropbtn">
           <AiOutlineMenu />
         </button>
-        <div class="dropdown-content">
-          <div class="header">
+        <div className="dropdown-content">
+          <div className="header">
             <h2>Menu</h2>
           </div>
-          <div class="row">
-            <div class="column">
+          <div className="row">
+            <div className="column">
               <h3>Laptopy i tablety</h3>
               <a href={`/categories/Laptopy biznesowe`}>Laptopy biznesowe</a>
               <a href={`/categories/Laptopy do gier`}>Laptopy do gier</a>
               <a href={`/categories/Tablety`}>Tablety</a>
             </div>
-            <div class="column">
+            <div className="column">
               <h3>Komputery stacjonarne</h3>
               <a href={`/categories/Komputery do firm`}>Komputery do firm</a>
               <a href={`/categories/Komputery dla gracza`}>
@@ -104,7 +98,7 @@ const Navbar = ({}) => {
                 Komputery Apple Mac
               </a>
             </div>
-            <div class="column">
+            <div className="column">
               <h3>Podzespo{"\u0142"}y komputerowe</h3>
               <a href={`/categories/Twarde dyski`}>Twarde dyski</a>
               <a href={`/categories/Karty graficzne`}>Karty graficzne</a>
@@ -119,7 +113,7 @@ const Navbar = ({}) => {
                 {"\u0107"} RAM
               </a>
             </div>
-            <div class="column">
+            <div className="column">
               <h3>Akcesoria</h3>
               <a href={`/categories/Kable i przejściówki`}>
                 Kable i przej{"\u015B"}ci{"\u00F3"}wki
@@ -129,7 +123,7 @@ const Navbar = ({}) => {
               <a href={`/categories/Klawiatury`}>Klawiatury</a>
               <a href={`/categories/Monitory`}>Monitory</a>
             </div>
-            <div class="column">
+            <div className="column">
               <h3>Gaming</h3>
               <a href={`/categories/Meble dla graczy`}>Meble dla graczy</a>
               <a href={`/categories/Komputery dla graczy`}>
@@ -142,17 +136,15 @@ const Navbar = ({}) => {
           </div>
         </div>
       </div>
-
-      {/*{<Search />}
-	  
-	  //<div className="searchBarz">
-		//<input type="text" placeholder="Search..">
-		//</div>
-	  
-	  
-	  <input type="submit" value="Submit" />
-	  */}
+      
       <Collapsible className="collapsibleSearch"  
+      
+      contentElementId={`collapsible-content-${1}`}
+      triggerElementProps={{
+        id: `collapsible-trigger-${1}`
+      }}
+
+
       trigger={<>Znajdź produkt:  <AiFillCaretRight/></>}
       triggerWhenOpen={<>Znajdź produkt:  <AiFillCaretDown/></>}>
       
@@ -160,7 +152,7 @@ const Navbar = ({}) => {
         <label>
           <input className="searchInput"
             type="text"
-            value={message}
+            value={collapsibleSearchProductName}
             onChange={handleChange}
             placeholder="Szukaj produktu..."
           />
@@ -191,14 +183,6 @@ const Navbar = ({}) => {
       <Link  href={`/search/results`}>
           <AiOutlineSearch className="magnifier"/>
           </Link>
-
-       {/* message  ? <Link  href={`/search/${message}`}>
-          <AiOutlineSearch className="magnifier"/>
-        </Link>
-        : <Link  href={"javascript: void(0)"}>
-          <AiOutlineSearch className="magnifier"/>
-          </Link>
-      */}
         
       </div>
 
@@ -231,18 +215,18 @@ const Navbar = ({}) => {
       <div className="navbar-options-section">
       {userLogin && <div className="user-login-header">{userLogin}</div>}
         <p className="logo">
-          <Link href="/">
-            <AiOutlineHome className="cart-icon" />
+          <Link href={"/"}>
+            <AiOutlineHome style={{ cursor: "pointer" }} className="cart-icon" />
           </Link>
         </p>
 
-        <div class="dropdown">
+        <div className="dropdown">
           <AiOutlineUser className="cart-icon" />
-          <div class="dropdown-user">
-            <div class="column-user">
+          <div className="dropdown-user">
+            <div className="column-user">
               {userLogin && userLogin != "null" ? (
                 <>                                  
-                  <a class="btn" onClick={onShowHistory}>
+                  <a className="btn" onClick={onShowHistory}>
                     Kupione
                   </a>
                   <a href="/" onClick={handleOnLogOut}>
@@ -268,13 +252,9 @@ const Navbar = ({}) => {
           <span className="cart-item-qty">{totalQuantities}</span>
         </button>
 
-        
-
         {showCart && <Cart />}
 
         {showHistory && <SearchHistory />}
-
-        {/*<div>{<><h4>{userLogin}</h4></>} </div> */}
         
       </div>
       

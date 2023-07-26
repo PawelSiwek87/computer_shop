@@ -8,15 +8,11 @@ import { useStateContext } from "../context/StateContext";
 const Layout = ({ children }) => {
   const { userLogin } = useStateContext();
   return (
-    
     <div className="layout">
-      
       <Head>
-      
         <title>Sklep komputerowy</title>
-        
       </Head>
-      
+
       <header>
         <Navbar />
       </header>
