@@ -17,6 +17,7 @@ export const StateContext = ({ children }) => {
   const [userLogin, setUserLogin] = useState("");
   const [showHistory, setShowHistory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+
   {
     /* do edycja w useStateContext  */
   }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { client } from "../lib/client";
 import { sendContactForm } from "./api/sendContactForm";
+import sendEmail from "../lib/sendEmail";
 
 const Registration = () => {
   const [username, setUsername] = useState("");
@@ -12,6 +13,7 @@ const Registration = () => {
   const [emailClassVal, setEmailClassVal] = useState("");
   const [emailAlertMessage, setEmailAlertMessage] = useState("");
   const [passwordClassVal, setPasswordClassVal] = useState("");
+  const [isModalError, setIsModalError] = useState(false);
 
   const customStyles = {
     content: {
@@ -21,6 +23,14 @@ const Registration = () => {
       padding: "80px",
     },
   };
+
+  const sendMailByGrid = (data) => {
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({data})
+    });
+  }
 
   function globalValidation(result) {
     let isValid = true;
@@ -77,14 +87,20 @@ const Registration = () => {
       subject: "Sklep internetowy - weryfikacja konta",
       message: "Aktywacja konta",
     };
-    sendContactForm(submitValue); //wysłanie maila
-    setIsModal(true);
+    sendContactForm(submitValue).then((result) => {
+      setIsModalError(!!result.isError);
+      setIsModal(true);
+    });
+     //wysłanie maila nie możliwe przez vercel
+    //zastąpienie sendgrid:
+    //sendMailByGrid(submitValue); //test sending
+    //sendEmail;  
   };
 
   return (
-    <div class="form-container">
+    <div className="form-container">
       <h2>Rejestracja użytkownika</h2>
-      <form class="form-group" onSubmit={handleSubmit}>
+      <form className="form-group" onSubmit={handleSubmit}>
         <div>
           <label>Nazwa użytkownika:</label>
           <input
@@ -96,26 +112,26 @@ const Registration = () => {
               setUserNameClassVal("");
             }}
           />
-          <small class={userNameClassVal}>Nazwa użytkownika wymagana!</small>
+          <small className={userNameClassVal}>Nazwa użytkownika wymagana!</small>
         </div>
         <div>
           <label>Email:</label>
           <input
             type="email"
-            class={emailClassVal}
+            className={emailClassVal}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value.trim());
               setEmailClassVal("");
             }}
           />
-          <small class={emailClassVal}>{emailAlertMessage}</small>
+          <small className={emailClassVal}>{emailAlertMessage}</small>
         </div>
         <div>
           <label>Hasło:</label>
           <input
             type="password"
-            class={passwordClassVal}
+            className={passwordClassVal}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value.trim());
@@ -134,10 +150,10 @@ const Registration = () => {
         onClose={() => setIsModal(false)}
         ariaHideApp={false}
       >
-        <h3>
+        {!isModalError ? <h3>
           W celu ukonczenia rejestracji aktywuj konto klikając w link
-          aktywycyjny.{" "}
-        </h3>
+          aktywycyjny w mailu.
+        </h3> : <h3>Coś poszło nie tak. Skontaktuj się z administratorem</h3>}
         <button class="btn" onClick={() => setIsModal(false)}>
           Zamknij
         </button>
