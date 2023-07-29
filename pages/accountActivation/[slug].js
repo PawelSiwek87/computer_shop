@@ -32,7 +32,7 @@ const ProductDetails = ({ products, productsSearch, newLogin, modalMessage }) =>
     };
 
     if (newLogin && newLogin != "") {
-      setUserLogin(newLogin);
+      //setUserLogin(newLogin);
   
       try {
         AsyncStorage.setItem("login", newLogin);
