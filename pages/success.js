@@ -56,7 +56,10 @@ const Success = () => {
           if (result) {
             let prod = productsToPurchased(cartsVal, result);
 
-            setPurchasedProduct(prod);
+            const testClean = async () => {
+              await setPurchasedProduct(prod);
+            };
+            testClean();
           }
         });
       }
@@ -81,7 +84,11 @@ const Success = () => {
           </a>
         </p>
         <Link href="/">
-          <button type="button" width="300px" className="btn">
+          <button type="button" width="300px" className="btn" onClick={
+            async () => {
+              await AsyncStorage.setItem("cartItems", []);
+            }
+          }>
             Kontynuuj zakupy
           </button>
         </Link>
