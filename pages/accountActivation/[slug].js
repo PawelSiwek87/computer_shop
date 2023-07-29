@@ -32,8 +32,9 @@ const ProductDetails = ({ products, productsSearch, newLogin, modalMessage }) =>
     };
 
     if (newLogin && newLogin != "") {
+      
       //setUserLogin(newLogin);
-  
+  /*
       try {
         AsyncStorage.setItem("login", newLogin);
         //console.log('Login ' + newLogin + ' został zapisany w AsyncStorage.');
@@ -41,7 +42,7 @@ const ProductDetails = ({ products, productsSearch, newLogin, modalMessage }) =>
       } catch (error) {
         console.log("Wystąpił błąd podczas zapisywania loginu:", error);
       }
-      
+      */
     }
 
 
