@@ -1,39 +1,61 @@
 import React, { useState } from "react";
+import {
+  AiOutlineMinus,
+  AiOutlinePlus,
+  AiFillStar,
+  AiOutlineStar,
+} from "react-icons/ai";
 import Modal from "react-modal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { client, urlFor } from "../../lib/client";
+import { Product } from "../../components";
 import { useStateContext } from "../../context/StateContext";
-import { client } from "../../lib/client";
 
-const AccountActivation = ({ modalMessage, newLogin }) => {
-  function onModalClose() {
-    setIsModal(false);
-    window.location.href = "/";
-  }
+const ProductDetails = ({ products, productsSearch, newLogin, modalMessage }) => {
+  const { selectedCategory, fromPrice, toPrice, collapsibleSearchProductName } =
+    useStateContext();
+    
   const [isModal, setIsModal] = useState(true);
-  const { userLogin, setUserLogin } = useStateContext();
 
-  if (newLogin && newLogin != "") {
-    setUserLogin(newLogin);
-
-    try {
-      AsyncStorage.setItem("login", newLogin);
-      //console.log('Login ' + newLogin + ' został zapisany w AsyncStorage.');
-    } catch (error) {
-      console.log("Wystąpił błąd podczas zapisywania loginu:", error);
+    function onModalClose() {
+      setIsModal(false);
+      window.location.href = "/";
     }
-  }
 
-  const customStyles = {
-    content: {
-      width: "550px",
-      height: "300px",
-      margin: "auto",
-      padding: "80px",
-    },
-  };
+    const customStyles = {
+      content: {
+        width: "550px",
+        height: "300px",
+        margin: "auto",
+        padding: "80px",
+      },
+    };
+
+    if (newLogin && newLogin != "") {
+      setUserLogin(newLogin);
+  
+      try {
+        AsyncStorage.setItem("login", newLogin);
+        //console.log('Login ' + newLogin + ' został zapisany w AsyncStorage.');
+      } catch (error) {
+        console.log("Wystąpił błąd podczas zapisywania loginu:", error);
+      }
+      
+    }
+
 
   return (
     <div>
+      <div className="maylike-products-wrapper">
+        <h2>Sprawdź też: </h2>
+        <div className="marquee">
+          <div className="maylike-products-container track">
+            {products.map((item) => (
+              <Product key={item._id} product={item} />
+            ))}
+          </div>
+        </div>
+      </div>
       <Modal
         isOpen={isModal}
         style={customStyles}
@@ -51,13 +73,13 @@ const AccountActivation = ({ modalMessage, newLogin }) => {
 
 export const getStaticPaths = async () => {
   const query = `*[_type == "product"] {
-        slug {
-          current
-        }
-      }
-      `;
+    slug {
+      current
+    }
+  }
+  `;
 
-  const products = [];
+  const products = await client.fetch(query);
 
   const paths = products.map((product) => ({
     params: {
@@ -72,12 +94,25 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
-  let newLogin = "";
-  let modalMessage = "";
+  // do wyczyszczenia:
+  //const productsSearchQuery = `*[_type == "product" && name match '${slug}']`
+
+  const productsSearchQuery = `*[_type == "product"]`; //test
+
+  const productsSearch = await client.fetch(productsSearchQuery);
+
+  const productsQuery = `*[_type == "product"]`;
+
+  const products = await client.fetch(productsQuery);
+
+
+let newLogin = "";
+  let modalMessage = ""; 
+  
   const jwt = require("jsonwebtoken");
   //jwt.sign({data}, "pablo", {expiresIn: '20m'});
-  const resToken = slug;
-  jwt.verify(
+  const resToken = await slug;
+  await jwt.verify(
     resToken,
     process.env.JWT_PRIVATE_KEY,
     async function (err, decodedToken) {
@@ -111,11 +146,12 @@ export const getStaticProps = async ({ params: { slug } }) => {
     }
   );
 
+
+
+
   return {
-    props: {
-      modalMessage,
-      newLogin,
-    },
+    props: { products, productsSearch, newLogin, modalMessage },
   };
 };
-export default AccountActivation;
+
+export default ProductDetails;
