@@ -27,8 +27,10 @@ const generateEmailContent = (data) => {
     expiresIn: "20m",
   }); //dodać tu zawartość konta  {expiresIn: '20m'}
 
+  let domainWithActivationUrl = process.env.DOMAIN_LINK + "/accountActivation/";
+
   const activationLink =
-    process.env.DOMAIN_LINK + "/accountActivation/" + accountActivationToken;
+     domainWithActivationUrl.replace(/\s/g, '') + accountActivationToken;
   const htmlData = Object.entries(data).reduce((str, [key, val]) => {
     return (str +=
       key != "password"
