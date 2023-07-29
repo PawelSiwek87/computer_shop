@@ -86,6 +86,11 @@ const Success = () => {
         <Link href="/">
           <button type="button" width="300px" className="btn" onClick={
             async () => {
+              setTotalPrice(0);
+              setTotalQuantities(0);
+              setCartItems([]);
+              setTotalPrice(0);
+              setTotalQuantities(0);
               await AsyncStorage.setItem("cartItems", []);
             }
           }>
