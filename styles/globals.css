@@ -421,12 +421,10 @@ text-align: end;
 .cart-container{
   height: 100vh;
   width: auto;
-  max-width: 600px;
   background-color: white;
   float: right;
-  padding: auto;
   position: relative;
-  margin-right: -120px;
+  margin-right: -110px;
 }
 
 .footer-container{
