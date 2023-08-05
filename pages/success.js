@@ -29,12 +29,13 @@ const Success = () => {
         await client.create(productsToPurchased[i]);
       }
       //client.create(productsToPurchased[0]);
-      await AsyncStorage.setItem("cartItems", []);
       setTotalPrice(0);
       setTotalQuantities(0);
       setCartItems([]);
       setTotalPrice(0);
       setTotalQuantities(0);
+      await AsyncStorage.setItem("cartItems", []);
+      
 
       //console.log('Zapisano w bazie purchasedProduct:', productsToPurchased  );
     } catch (error) {
