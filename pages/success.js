@@ -34,8 +34,8 @@ const Success = () => {
       setCartItems([]);
       setTotalPrice(0);
       setTotalQuantities(0);
-      await AsyncStorage.setItem("cartItems", []);
-      
+      const clearCartItems = await AsyncStorage.setItem("cartItems", []);
+      clearCartItems();
 
       //console.log('Zapisano w bazie purchasedProduct:', productsToPurchased  );
     } catch (error) {
