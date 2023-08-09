@@ -29,12 +29,7 @@ const Success = () => {
         await client.create(productsToPurchased[i]);
       }
       //client.create(productsToPurchased[0]);
-      await AsyncStorage.setItem("cartItems", []);
-      setTotalPrice(0);
-      setTotalQuantities(0);
-      setCartItems([]);
-      setTotalPrice(0);
-      setTotalQuantities(0);
+      
 
       //console.log('Zapisano w bazie purchasedProduct:', productsToPurchased  );
     } catch (error) {
@@ -56,12 +51,25 @@ const Success = () => {
           if (result) {
             let prod = productsToPurchased(cartsVal, result);
 
-            setPurchasedProduct(prod);
+            const testClean = async () => {
+              await setPurchasedProduct(prod);
+            };
+            testClean();
           }
         });
       }
     };
     onSuccessAction();
+    const clearCartItems = async () => {
+      setTotalPrice(0);
+      setTotalQuantities(0);
+      setCartItems([]);
+      setTotalPrice(0);
+      setTotalQuantities(0);
+      await AsyncStorage.setItem("cartItems", []);
+
+    }
+    clearCartItems();
     runFireworks();
   }, []);
 
@@ -81,7 +89,16 @@ const Success = () => {
           </a>
         </p>
         <Link href="/">
-          <button type="button" width="300px" className="btn">
+          <button type="button" width="300px" className="btn" onClick={
+            async () => {
+              setTotalPrice(0);
+              setTotalQuantities(0);
+              setCartItems([]);
+              setTotalPrice(0);
+              setTotalQuantities(0);
+              await AsyncStorage.setItem("cartItems", []);
+            }
+          }>
             Kontynuuj zakupy
           </button>
         </Link>

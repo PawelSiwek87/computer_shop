@@ -209,7 +209,7 @@ export const StateContext = ({ children }) => {
         fromPrice,
         setFromPrice,
         toPrice,
-        setToPrice,
+        setToPrice
       }}
     >
       {children}

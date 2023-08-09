@@ -221,7 +221,7 @@ const Navbar = ({}) => {
         </p>
 
         <div className="dropdown">
-          <AiOutlineUser className="cart-icon" />
+          <AiOutlineUser className="cart-icon"  />
           <div className="dropdown-user">
             <div className="column-user">
               {userLogin && userLogin != "null" ? (

@@ -73,7 +73,7 @@ const Cart = () => {
         >
           <AiOutlineLeft />
           <span className="heading">Twój koszyk</span>
-          <span className="cart-num-items">({totalQuantities} items)</span>
+          <span className="cart-num-items">({totalQuantities} ilość)</span>
         </button>
 
         {cartItems.length < 1 && (
