@@ -32,8 +32,18 @@ const ProductDetails = ({ products, productsSearch, newLogin, modalMessage }) =>
     };
 
     if (newLogin && newLogin != "") {
+      
       //setUserLogin(newLogin);
-      const settingTest = async () =>{
+  /*
+      try {
+        AsyncStorage.setItem("login", newLogin);
+        //console.log('Login ' + newLogin + ' został zapisany w AsyncStorage.');
+        
+      } catch (error) {
+        console.log("Wystąpił błąd podczas zapisywania loginu:", error);
+      }
+      */
+const settingTest = async () =>{
       try {
         await AsyncStorage.setItem("login", newLogin);
         //console.log('Login ' + newLogin + ' został zapisany w AsyncStorage.');
@@ -43,7 +53,9 @@ const ProductDetails = ({ products, productsSearch, newLogin, modalMessage }) =>
       }
 
     }
-    settingTest();
+settingTest();
+
+      
     }
 
 

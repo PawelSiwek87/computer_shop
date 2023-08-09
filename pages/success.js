@@ -51,10 +51,10 @@ const Success = () => {
           if (result) {
             let prod = productsToPurchased(cartsVal, result);
 
-            const testClean = async () => {
+            const testsetPurchasedProduct = async () => {
               await setPurchasedProduct(prod);
             };
-            testClean();
+            testsetPurchasedProduct();
           }
         });
       }
@@ -67,7 +67,6 @@ const Success = () => {
       setTotalPrice(0);
       setTotalQuantities(0);
       await AsyncStorage.setItem("cartItems", []);
-
     }
     clearCartItems();
     runFireworks();
