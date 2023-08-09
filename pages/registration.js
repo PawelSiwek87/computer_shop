@@ -152,7 +152,7 @@ const Registration = () => {
       >
         {!isModalError ? <h3>
           W celu ukonczenia rejestracji aktywuj konto klikając w link
-          aktywycyjny w mailu.
+          aktywacyjny w mailu.
         </h3> : <h3>Coś poszło nie tak. Skontaktuj się z administratorem</h3>}
         <button class="btn" onClick={() => setIsModal(false)}>
           Zamknij
