@@ -101,7 +101,7 @@ const ProductDetails = ({ product, products }) => {
               Dodaj do koszyka
             </button>
             <button type="button" className="buy-now" onClick={handleBuyNow}>
-              Kup teraz
+              Kup już teraz
             </button>
           </div>
         </div>
