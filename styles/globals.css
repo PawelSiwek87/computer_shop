@@ -423,6 +423,7 @@ text-align: end;
   border-radius: 1%;
   height: auto;
   max-height: 90vh;
+  min-height: 70vh;
   border-style: solid;
   border-color: black !important;
   background-color: #f2f2f2;
