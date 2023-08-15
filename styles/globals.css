@@ -421,7 +421,9 @@ text-align: end;
 .cart-container{
   padding: 10px;
   border-radius: 1%;
-  height: 100vh;
+  height: 90vh;
+  border-style: solid;
+  border-color: black !important;
   background-color: #f2f2f2;
   float: right;
   position: relative;
