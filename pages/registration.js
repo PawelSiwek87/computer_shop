@@ -13,6 +13,8 @@ const Registration = () => {
   const [emailClassVal, setEmailClassVal] = useState("");
   const [emailAlertMessage, setEmailAlertMessage] = useState("");
   const [passwordClassVal, setPasswordClassVal] = useState("");
+  const [passwordAlertMessage, setPasswordAlertMessage] = useState("");
+  //Hasło wymagane!
   const [isModalError, setIsModalError] = useState(false);
 
   const customStyles = {
@@ -55,6 +57,11 @@ const Registration = () => {
     }
     if (!password) {
       isValid = false;
+      setPasswordAlertMessage("Hasło wymagane!");
+      setPasswordClassVal("errorValidation");
+    }else if(!standardPasswordValidation(password)){
+      isValid = false;
+      setPasswordAlertMessage("Hasło musi zawierać przynajmniej 8 znaków, w tym małą i dużą literę, oraz znak specjalny!");
       setPasswordClassVal("errorValidation");
     }
     return isValid;
@@ -62,6 +69,13 @@ const Registration = () => {
 
   function ValidateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    return false;
+  }
+
+  function standardPasswordValidation(mail) {
+    if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(mail)) {
       return true;
     }
     return false;
@@ -138,7 +152,7 @@ const Registration = () => {
               setPasswordClassVal("");
             }}
           />
-          <small class={passwordClassVal}>Hasło wymagane!</small>
+          <small class={passwordClassVal}>{passwordAlertMessage}</small>
         </div>
         <button type="submit" class="btn" onClick={handleSubmit}>
           Zarejestruj
@@ -151,7 +165,7 @@ const Registration = () => {
         ariaHideApp={false}
       >
         {!isModalError ? <h3>
-          W celu ukonczenia rejestracji aktywuj konto klikając w link
+          W celu ukończenia rejestracji aktywuj konto klikając w link
           aktywacyjny w mailu.
         </h3> : <h3>Coś poszło nie tak. Skontaktuj się z administratorem</h3>}
         <button class="btn" onClick={() => setIsModal(false)}>
