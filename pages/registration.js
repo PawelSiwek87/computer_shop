@@ -61,7 +61,7 @@ const Registration = () => {
       setPasswordClassVal("errorValidation");
     }else if(!standardPasswordValidation(password)){
       isValid = false;
-      setPasswordAlertMessage("Hasło musi zawierać przynajmniej 8 znaków, w tym małą i dużą literę, oraz znak specjalny!");
+      setPasswordAlertMessage("Hasło musi zawierać przynajmniej 8 znaków, w tym małą i dużą literę oraz znak specjalny!");
       setPasswordClassVal("errorValidation");
     }
     return isValid;
