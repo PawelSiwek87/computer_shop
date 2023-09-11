@@ -14,6 +14,8 @@ const ProductDetails = ({ products, productsSearch }) => {
   const { selectedCategory, fromPrice, toPrice, collapsibleSearchProductName } =
     useStateContext();
 
+
+    
   if (collapsibleSearchProductName)
     productsSearch = productsSearch.filter((product) =>
       product.name
